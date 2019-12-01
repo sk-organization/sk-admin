@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-eslint-rules",
+    "tslint-react",
+    "tslint-config-prettier"
+  ],
+  "jsRules": {},
+  "defaultSeverity": "warning",
+  "rules": {
+    "object-literal-sort-keys": false,
+    "curly": false,
+    "jsx-boolean-value": false,
+    "no-console": false,
+    "interface-name": false,
+    "member-access": false
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": ["node_modules"]
+  }
+}
