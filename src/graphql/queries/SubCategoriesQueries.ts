@@ -9,6 +9,8 @@ export const SubCategoriesQuery = gql`
       name
       image
       totalProducts
+      franchiseCommissionPercent
+      profitPercent
       category {
         name
       }

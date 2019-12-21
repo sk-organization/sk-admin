@@ -10,6 +10,7 @@ import OrderInfo from './OrderInfo';
 import CustomerInfo from './CustomerInfo';
 import BillingInfo from './BillingInfo';
 import ShippingInfo from './ShippingInfo';
+import { totalQuantityFromVariations } from 'utils/general';
 
 interface Props {
   path: string;
@@ -119,18 +120,23 @@ const Order: React.FC<Props> = props => {
         ...orderProduct,
         quantity,
         adminIncome:
-          quantity *
+          //@ts-ignore
+          totalQuantityFromVariations(orderProduct.selectedVariations) *
           orderProduct.product.sellerPrice *
           (orderProduct.product.subCategory.profitPercent / 100),
         franchiseComissionInfo: {
           comission:
-            quantity *
+            //@ts-ignore
+            totalQuantityFromVariations(orderProduct.selectedVariations) *
             orderProduct.product.price *
             (orderProduct.product.subCategory.franchiseCommissionPercent / 100),
-          // name: orderProduct.franchise.user.name,
+          name: orderProduct.franchise.user.name,
         },
         image: orderProduct.product.variations[0].images[0],
-        subTotal: quantity * orderProduct.product.price,
+        subTotal:
+          // @ts-ignore
+          totalQuantityFromVariations(orderProduct.selectedVariations) *
+          orderProduct.product.price,
         generalInfo: {
           price: orderProduct.product.price,
           sellerPrice: orderProduct.product.sellerPrice,
@@ -186,15 +192,15 @@ const Order: React.FC<Props> = props => {
                 style={{ textAlign: 'right', marginTop: 20, padding: 10 }}
               >
                 <div>
-                  Sub Total: <strong>₹ {order.total}</strong>
+                  Sub Total: <strong>₹{order.total}</strong>
                 </div>
                 <div>
-                  VAT (13%):
-                  <strong>{order.total + order.total * (13 / 100)}</strong>
+                  VAT (13%):{' '}
+                  <strong>₹{order.total + order.total * (13 / 100)}</strong>
                 </div>
                 <div style={{ fontSize: 17, marginTop: 8 }}>
                   Grand Total:{' '}
-                  <strong>₹ {order.total + order.total * (13 / 100)}</strong>
+                  <strong>₹{order.total + order.total * (13 / 100)}</strong>
                 </div>
               </Col>
             </Row>
@@ -207,6 +213,8 @@ const Order: React.FC<Props> = props => {
             columns={shipmentsColumns}
             dataSource={shipmentsData}
           />
+          <br />
+          <br />
         </TabPane>
         <TabPane tab="Invoices" key="3">
           <h2>Invoices</h2>
@@ -217,6 +225,8 @@ const Order: React.FC<Props> = props => {
           />
         </TabPane>
       </Tabs>
+      <br />
+      <br />
     </div>
   );
 

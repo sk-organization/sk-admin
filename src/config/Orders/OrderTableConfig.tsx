@@ -4,6 +4,10 @@ import { IMAGE_HOST } from 'constants/apollo';
 
 export const orderProductTableConfig = [
   {
+    title: 'id',
+    dataIndex: 'id',
+  },
+  {
     title: 'Image',
     dataIndex: 'image',
     render: image => (
@@ -88,7 +92,7 @@ export const orderProductTableConfig = [
     dataIndex: 'franchiseComissionInfo',
     render: franchise => (
       <div>
-        <div>Name: {franchise.name}</div>
+        <div style={{ color: 'purple' }}>{franchise.name}</div>
         <div>Earn: ₹{franchise.comission}</div>
       </div>
     ),
@@ -97,6 +101,7 @@ export const orderProductTableConfig = [
   {
     title: 'Admin Income',
     dataIndex: 'adminIncome',
+    render: adminIncome => <div>Earn: ₹{adminIncome}</div>,
   },
 
   {

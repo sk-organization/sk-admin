@@ -6830,6 +6830,7 @@ export type AdminFranchiseAreaQuery = (
       & Pick<FranchiseArea, 'id' | 'commonName'>
       & { franchise: Maybe<(
         { __typename?: 'Franchise' }
+        & Pick<Franchise, 'id'>
         & { bankDetails: Maybe<(
           { __typename?: 'PaymentDetail' }
           & Pick<PaymentDetail, 'IFSC_CODE' | 'bankName' | 'accountNumber'>
@@ -6840,6 +6841,70 @@ export type AdminFranchiseAreaQuery = (
       )> }
     )>> }
   )> }
+);
+
+export type FranchiseQueryVariables = {
+  franchiseId: Scalars['ID']
+};
+
+
+export type FranchiseQuery = (
+  { __typename?: 'Query' }
+  & { franchise: Maybe<(
+    { __typename?: 'Franchise' }
+    & { bankDetails: Maybe<(
+      { __typename?: 'PaymentDetail' }
+      & Pick<PaymentDetail, 'IFSC_CODE' | 'bankName' | 'accountNumber'>
+    )>, user: (
+      { __typename?: 'User' }
+      & Pick<User, 'name' | 'email' | 'image' | 'phone' | 'gender'>
+      & { defaultLocation: Maybe<(
+        { __typename?: 'Location' }
+        & Pick<Location, 'city' | 'zipCode' | 'address1' | 'address2'>
+      )> }
+    ) }
+  )> }
+);
+
+export type WithFranchiseOrdersQueryVariables = {
+  withFranchiseId: Scalars['ID']
+};
+
+
+export type WithFranchiseOrdersQuery = (
+  { __typename?: 'Query' }
+  & { orders: Array<Maybe<(
+    { __typename?: 'Order' }
+    & Pick<Order, 'id'>
+    & { products: Maybe<Array<(
+      { __typename?: 'Cart' }
+      & Pick<Cart, 'totalProducts'>
+      & { franchise: Maybe<(
+        { __typename?: 'Franchise' }
+        & Pick<Franchise, 'id'>
+      )>, selectedVariations: Maybe<Array<(
+        { __typename?: 'Variation' }
+        & Pick<Variation, 'id' | 'images'>
+        & { sizes: Maybe<Array<(
+          { __typename?: 'Size' }
+          & Pick<Size, 'id' | 'name' | 'quantity'>
+        )>> }
+      )>>, product: (
+        { __typename?: 'Product' }
+        & Pick<Product, 'price' | 'sellerPrice' | 'name' | 'image'>
+        & { category: (
+          { __typename?: 'Category' }
+          & Pick<Category, 'name'>
+        ), subCategory: (
+          { __typename?: 'SubCategory' }
+          & Pick<SubCategory, 'name' | 'franchiseCommissionPercent' | 'profitPercent'>
+        ), seller: (
+          { __typename?: 'Seller' }
+          & Pick<Seller, 'shopName'>
+        ) }
+      ) }
+    )>> }
+  )>> }
 );
 
 export type CategoriesQueryVariables = {
@@ -7042,7 +7107,7 @@ export type ProductsQuery = (
       & Pick<Category, 'id' | 'name'>
     ), subCategory: (
       { __typename?: 'SubCategory' }
-      & Pick<SubCategory, 'id' | 'name'>
+      & Pick<SubCategory, 'id' | 'name' | 'franchiseCommissionPercent' | 'profitPercent'>
     ), seller: (
       { __typename?: 'Seller' }
       & Pick<Seller, 'shopName'>
@@ -7085,7 +7150,7 @@ export type ProductQuery = (
       & Pick<Category, 'name'>
     ), subCategory: (
       { __typename?: 'SubCategory' }
-      & Pick<SubCategory, 'name'>
+      & Pick<SubCategory, 'name' | 'franchiseCommissionPercent' | 'profitPercent'>
     ), tags: Array<(
       { __typename?: 'Tag' }
       & Pick<Tag, 'name'>
@@ -7218,7 +7283,7 @@ export type SubCategoriesQuery = (
   { __typename?: 'Query' }
   & { subCategories: Array<Maybe<(
     { __typename?: 'SubCategory' }
-    & Pick<SubCategory, 'id' | 'name' | 'image' | 'totalProducts'>
+    & Pick<SubCategory, 'id' | 'name' | 'image' | 'totalProducts' | 'franchiseCommissionPercent' | 'profitPercent'>
     & { category: (
       { __typename?: 'Category' }
       & Pick<Category, 'name'>
@@ -7309,6 +7374,7 @@ export const AdminFranchiseAreaDocument = gql`
       id
       commonName
       franchise {
+        id
         bankDetails {
           IFSC_CODE
           bankName
@@ -7357,6 +7423,133 @@ export function useAdminFranchiseAreaLazyQuery(baseOptions?: ApolloReactHooks.La
 export type AdminFranchiseAreaQueryHookResult = ReturnType<typeof useAdminFranchiseAreaQuery>;
 export type AdminFranchiseAreaLazyQueryHookResult = ReturnType<typeof useAdminFranchiseAreaLazyQuery>;
 export type AdminFranchiseAreaQueryResult = ApolloReactCommon.QueryResult<AdminFranchiseAreaQuery, AdminFranchiseAreaQueryVariables>;
+export const FranchiseDocument = gql`
+    query Franchise($franchiseId: ID!) {
+  franchise(where: {id: $franchiseId}) {
+    bankDetails {
+      IFSC_CODE
+      bankName
+      accountNumber
+    }
+    user {
+      name
+      email
+      image
+      phone
+      gender
+      defaultLocation {
+        city
+        zipCode
+        address1
+        address2
+      }
+    }
+  }
+}
+    `;
+export type FranchiseComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<FranchiseQuery, FranchiseQueryVariables>, 'query'> & ({ variables: FranchiseQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const FranchiseComponent = (props: FranchiseComponentProps) => (
+      <ApolloReactComponents.Query<FranchiseQuery, FranchiseQueryVariables> query={FranchiseDocument} {...props} />
+    );
+    
+
+/**
+ * __useFranchiseQuery__
+ *
+ * To run a query within a React component, call `useFranchiseQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFranchiseQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFranchiseQuery({
+ *   variables: {
+ *      franchiseId: // value for 'franchiseId'
+ *   },
+ * });
+ */
+export function useFranchiseQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<FranchiseQuery, FranchiseQueryVariables>) {
+        return ApolloReactHooks.useQuery<FranchiseQuery, FranchiseQueryVariables>(FranchiseDocument, baseOptions);
+      }
+export function useFranchiseLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<FranchiseQuery, FranchiseQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<FranchiseQuery, FranchiseQueryVariables>(FranchiseDocument, baseOptions);
+        }
+export type FranchiseQueryHookResult = ReturnType<typeof useFranchiseQuery>;
+export type FranchiseLazyQueryHookResult = ReturnType<typeof useFranchiseLazyQuery>;
+export type FranchiseQueryResult = ApolloReactCommon.QueryResult<FranchiseQuery, FranchiseQueryVariables>;
+export const WithFranchiseOrdersDocument = gql`
+    query WithFranchiseOrders($withFranchiseId: ID!) {
+  orders(where: {products_some: {franchise: {id: $withFranchiseId}}}) {
+    id
+    products {
+      franchise {
+        id
+      }
+      totalProducts
+      selectedVariations {
+        id
+        images
+        sizes {
+          id
+          name
+          quantity
+        }
+      }
+      product {
+        price
+        sellerPrice
+        name
+        image
+        category {
+          name
+        }
+        subCategory {
+          name
+          franchiseCommissionPercent
+          profitPercent
+        }
+        seller {
+          shopName
+        }
+      }
+    }
+  }
+}
+    `;
+export type WithFranchiseOrdersComponentProps = Omit<ApolloReactComponents.QueryComponentOptions<WithFranchiseOrdersQuery, WithFranchiseOrdersQueryVariables>, 'query'> & ({ variables: WithFranchiseOrdersQueryVariables; skip?: boolean; } | { skip: boolean; });
+
+    export const WithFranchiseOrdersComponent = (props: WithFranchiseOrdersComponentProps) => (
+      <ApolloReactComponents.Query<WithFranchiseOrdersQuery, WithFranchiseOrdersQueryVariables> query={WithFranchiseOrdersDocument} {...props} />
+    );
+    
+
+/**
+ * __useWithFranchiseOrdersQuery__
+ *
+ * To run a query within a React component, call `useWithFranchiseOrdersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWithFranchiseOrdersQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWithFranchiseOrdersQuery({
+ *   variables: {
+ *      withFranchiseId: // value for 'withFranchiseId'
+ *   },
+ * });
+ */
+export function useWithFranchiseOrdersQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<WithFranchiseOrdersQuery, WithFranchiseOrdersQueryVariables>) {
+        return ApolloReactHooks.useQuery<WithFranchiseOrdersQuery, WithFranchiseOrdersQueryVariables>(WithFranchiseOrdersDocument, baseOptions);
+      }
+export function useWithFranchiseOrdersLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<WithFranchiseOrdersQuery, WithFranchiseOrdersQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<WithFranchiseOrdersQuery, WithFranchiseOrdersQueryVariables>(WithFranchiseOrdersDocument, baseOptions);
+        }
+export type WithFranchiseOrdersQueryHookResult = ReturnType<typeof useWithFranchiseOrdersQuery>;
+export type WithFranchiseOrdersLazyQueryHookResult = ReturnType<typeof useWithFranchiseOrdersLazyQuery>;
+export type WithFranchiseOrdersQueryResult = ApolloReactCommon.QueryResult<WithFranchiseOrdersQuery, WithFranchiseOrdersQueryVariables>;
 export const CategoriesDocument = gql`
     query Categories($where: CategoryWhereInput) {
   categories(where: $where) {
@@ -7796,6 +7989,8 @@ export const ProductsDocument = gql`
     subCategory {
       id
       name
+      franchiseCommissionPercent
+      profitPercent
     }
     seller {
       shopName
@@ -7893,6 +8088,8 @@ export const ProductDocument = gql`
     }
     subCategory {
       name
+      franchiseCommissionPercent
+      profitPercent
     }
     tags {
       name
@@ -8154,6 +8351,8 @@ export const SubCategoriesDocument = gql`
     name
     image
     totalProducts
+    franchiseCommissionPercent
+    profitPercent
     category {
       name
     }

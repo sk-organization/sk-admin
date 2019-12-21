@@ -35,16 +35,6 @@ const ProductInfo = ({ product }) => {
           </div>
         )}
 
-        {/* <div>
-          Marked Price:
-          <strong>
-            ₹
-            {discountPercent > 0
-              ? price + price * (discountPercent / 100)
-              : price}
-          </strong>
-        </div> */}
-
         <div>
           Seller Price: <strong> ₹{sellerPrice}</strong>
         </div>

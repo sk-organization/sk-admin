@@ -19,7 +19,6 @@ const AdminFranchiseAreas: React.FC<Props> = props => {
     },
   });
 
-  if (loading) return <div>Loading..</div>;
   if (error) return <div>Server Error...</div>;
 
   console.log(data);
@@ -71,7 +70,9 @@ const AdminFranchiseAreas: React.FC<Props> = props => {
         key="id"
         dataSource={adminFranchiseAreasMapped}
         columns={AdminFranchiseAreasTableCofig}
+        loading={loading}
         rowClassName={item => (item.owner ? '__franchise-occupied' : '')}
+        pagination={false}
         onRowClick={adminFranchiseArea =>
           navigate(`/franchises-areas/franchises/${adminFranchiseArea.id}`)
         }

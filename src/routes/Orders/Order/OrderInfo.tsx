@@ -15,7 +15,13 @@ const OrderInfo = ({ order }) => {
         Order Status: <strong>{order.status}</strong>
       </h4>
       <h4>
-        SK Money: <strong>{orderBy.skMoney}</strong>{' '}
+        {orderBy.skMoney ? (
+          <div>
+            SK Money: <strong>{orderBy.skMoney}</strong>{' '}
+          </div>
+        ) : (
+          ''
+        )}
       </h4>
     </div>
   );

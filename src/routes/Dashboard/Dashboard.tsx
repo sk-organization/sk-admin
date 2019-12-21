@@ -7,9 +7,7 @@ interface Props {
 const Dashboard: React.FC<Props> = props => {
   return (
     <div>
-      <div>
-        <h3>Hi, i am from Dashboard!!</h3>
-      </div>
+      <h3>Hi, i am from Dashboard!!</h3>
     </div>
   );
 };

@@ -17,6 +17,7 @@ export const FranchiseAreaTableConfig = [
         {franchiseInfo ? (
           <React.Fragment>
             <div>Name: {franchiseInfo.name}</div>
+            <div>Phone: {franchiseInfo.phone}</div>
           </React.Fragment>
         ) : (
           <div>

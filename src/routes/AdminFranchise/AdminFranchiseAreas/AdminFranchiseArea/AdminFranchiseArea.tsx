@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAdminFranchiseAreaQuery } from 'generated/Hooks';
-import { Row, Col, Avatar, Table } from 'antd';
+import { Row, Col, Avatar, Table, notification } from 'antd';
 import { IMAGE_HOST } from 'constants/apollo';
 import { FranchiseAreaTableConfig } from 'config/AdminFranchiseAreasTableConfig/FranchiseAreaTableConfig';
 import { navigate } from '@reach/router';
@@ -11,8 +11,6 @@ interface Props {
 }
 
 const AdminFranchiseArea: React.FC<Props> = props => {
-  console.log(props);
-
   const { error, loading, data } = useAdminFranchiseAreaQuery({
     variables: {
       adminFranchiseAreaId: props.franchisesId,
@@ -36,7 +34,7 @@ const AdminFranchiseArea: React.FC<Props> = props => {
     franchiseInfo: franchiseArea.franchise
       ? {
           name: franchiseArea.franchise.user.name,
-          phone: franchiseArea.franchise.user.name,
+          phone: franchiseArea.franchise.user.phone,
         }
       : null,
   }));
@@ -96,9 +94,15 @@ const AdminFranchiseArea: React.FC<Props> = props => {
           key="id"
           dataSource={franchiseAreasMapped}
           columns={FranchiseAreaTableConfig}
-          onRowClick={franchiseArea =>
-            navigate(`/franchises/franchise/${franchiseArea.id}`)
-          }
+          onRowClick={franchiseArea => {
+            if (franchiseArea.franchise) {
+              navigate(`/franchises/franchise/${franchiseArea.franchise.id}`);
+            } else {
+              notification.error({
+                message: 'No Franchise Details Available! ',
+              });
+            }
+          }}
         />
       </div>
     </div>

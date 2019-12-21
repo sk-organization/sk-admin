@@ -24,7 +24,7 @@ const Sellers: React.FC<Props> = props => {
 
   const { sellers = [] } = data || {};
 
-  const handleSellersSearch = event => {
+  const handleSellersSearch = (event: { target: { value: any } }) => {
     refetch({
       where: { user: { name_contains: event.target.value } },
     });
@@ -42,8 +42,8 @@ const Sellers: React.FC<Props> = props => {
       <Table
         key="id"
         loading={loading}
-        dataSource={sellers}
         columns={sellersUserTableConfig}
+        dataSource={sellers}
         onRowClick={seller => navigate(`/seller/${seller.id}`)}
       />
     </div>

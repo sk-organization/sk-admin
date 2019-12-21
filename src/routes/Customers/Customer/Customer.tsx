@@ -12,7 +12,7 @@ interface Props {
 
 const { TabPane } = Tabs;
 
-const Comp = props => {
+const Comp = (props: { type: any; text: any }) => {
   const { type, text } = props;
   return (
     <span>
@@ -82,7 +82,7 @@ const Customer: React.FC<Props> = props => {
         </Col>
         <Col span={12}>Graph Area!!</Col>
       </Row>
-
+      <br />
       <Tabs defaultActiveKey="1" size="large">
         <TabPane tab={<Comp type="shopping" text="Orders" />} key="1">
           <Orders where={{ orderBy: { id: user.id } }} />

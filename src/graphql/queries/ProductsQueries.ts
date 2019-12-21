@@ -27,6 +27,8 @@ export const ProductsQuery = gql`
       subCategory {
         id
         name
+        franchiseCommissionPercent
+        profitPercent
       }
       seller {
         shopName
@@ -93,6 +95,8 @@ export const ProductQuery = gql`
       }
       subCategory {
         name
+        franchiseCommissionPercent
+        profitPercent
       }
       tags {
         name

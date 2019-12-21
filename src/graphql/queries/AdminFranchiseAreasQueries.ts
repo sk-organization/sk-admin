@@ -52,6 +52,7 @@ export const AdminFranchiseAreaQuery = gql`
         id
         commonName
         franchise {
+          id
           bankDetails {
             IFSC_CODE
             bankName
@@ -71,7 +72,7 @@ export const AdminFranchiseAreaQuery = gql`
 
 export const FranchiseQuery = gql`
   query Franchise($franchiseId: ID!) {
-    franchise(whrere: { id: $franchiseId }) {
+    franchise(where: { id: $franchiseId }) {
       bankDetails {
         IFSC_CODE
         bankName
@@ -89,6 +90,46 @@ export const FranchiseQuery = gql`
           zipCode
           address1
           address2
+        }
+      }
+    }
+  }
+`;
+
+export const WithFranchiseOrdersQuery = gql`
+  query WithFranchiseOrders($withFranchiseId: ID!) {
+    orders(where: { products_some: { franchise: { id: $withFranchiseId } } }) {
+      id
+      products {
+        franchise {
+          id
+        }
+        totalProducts
+        selectedVariations {
+          id
+          images
+          sizes {
+            id
+            name
+            quantity
+          }
+        }
+        product {
+          price
+          sellerPrice
+          name
+          image
+          category {
+            name
+          }
+          subCategory {
+            name
+            franchiseCommissionPercent
+            profitPercent
+          }
+          seller {
+            shopName
+          }
         }
       }
     }

@@ -35,7 +35,7 @@ export const productsTableConfig = [
           </div>
           <div>
             Product Category:
-            <strong>{product.category.replace('-', ' ')}</strong>
+            <strong> {product.category.replace('-', ' ')}</strong>
           </div>
           <div style={{ marginTop: 5 }}>
             <strong>Seller's Info</strong>
@@ -75,6 +75,7 @@ export const productsTableConfig = [
           <div>
             Marked Price:
             <strong>
+              {' '}
               ₹{product.price + product.price * (product.discountPercent / 100)}
             </strong>
           </div>

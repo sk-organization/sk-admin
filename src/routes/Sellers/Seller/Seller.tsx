@@ -18,7 +18,7 @@ const Seller: React.FC<Props> = props => {
     },
   });
 
-  if (loading) return <div>Loding...</div>;
+  if (loading) return <div>Loading...</div>;
   if (error) return <div>Server Error...</div>;
 
   console.log(data);
@@ -31,7 +31,7 @@ const Seller: React.FC<Props> = props => {
     <div>
       <Row>
         <Col span={8}>
-          <h4>User Details</h4>
+          <h2>User Info</h2>
           <div>
             <span>Name:</span> <span className={styles.User}>{user.name}</span>
           </div>
@@ -43,24 +43,24 @@ const Seller: React.FC<Props> = props => {
           </div>
 
           <div>
-            <span>Phone:</span>
+            <span>Phone: </span>
             <span className={styles.User}>{user.phone}</span>{' '}
           </div>
           {user.location && (
             <div>
-              <span>City:</span>{' '}
+              <span>City: </span>{' '}
               <span className={styles.User}>{user.location.city}</span>{' '}
             </div>
           )}
 
           <div>
-            <span>Gender:</span>
+            <span>Gender: </span>
             <span className={styles.User}>{user.gender}</span>{' '}
           </div>
         </Col>
 
         <Col span={8}>
-          <h4>Seller Details:</h4>
+          <h2>Seller Info</h2>
           Shop Name: <span className={styles.User}>{seller.shopName}</span>
           <br />
           {seller.website && (
@@ -84,12 +84,14 @@ const Seller: React.FC<Props> = props => {
         </Col>
         <Col span={8} style={{ textAlign: 'right' }}>
           <img
-            style={{ height: '150px', borderRadius: '50%' }}
+            style={{ height: '150px', marginRight: 100, borderRadius: '50%' }}
             src={IMAGE_HOST + user.image}
             alt="Seller"
           />
         </Col>
       </Row>
+      <br />
+
       {seller.id && <Products initialWhere={{ seller: { id: seller.id } }} />}
     </div>
   );

@@ -1,5 +1,11 @@
 import React from 'react';
-import { Row, Col } from 'antd';
+import { Row, Col, Avatar, Table } from 'antd';
+import {
+  useFranchiseQuery,
+  useWithFranchiseOrdersQuery,
+} from 'generated/Hooks';
+import { IMAGE_HOST } from 'constants/apollo';
+import { FranchiseTableConfig } from 'config/AdminFranchiseAreasTableConfig/FranchiseTableConfig';
 
 interface Props {
   path: string;
@@ -7,16 +13,30 @@ interface Props {
 }
 
 const Franchise: React.FC<Props> = props => {
-  // const { error, loading, data } = useFranchiseQuery({
-  //   variables: {
-  //     franchiseId: props.franchiseId
-  //   }
-  // })
+  const { error, loading, data } = useFranchiseQuery({
+    variables: {
+      franchiseId: props.franchiseId,
+    },
+  });
 
-  // if(loading) return <div>Loading...</div>
-  // if(error) return <div>Server Error...</div>
+  const franchiseOrderData = useWithFranchiseOrdersQuery({
+    variables: {
+      withFranchiseId: props.franchiseId,
+    },
+  });
 
-  // console.log(data);
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Server Error...</div>;
+
+  const { franchise } = data;
+
+  const { bankDetails, user } = franchise;
+  const { defaultLocation } = user;
+
+  console.log(franchiseOrderData);
+
+  if (franchiseOrderData.loading) return <div>Loading...</div>;
+  if (franchiseOrderData.error) return <div>Server Error...</div>;
 
   return (
     <div>
@@ -30,50 +50,70 @@ const Franchise: React.FC<Props> = props => {
         <Col span={6}>
           <h2>Franchise Info</h2>
           <div>
-            Name: <strong></strong>
+            Name: <strong>{user.name}</strong>
           </div>
           <div>
-            Email: <strong></strong>
+            Email: <strong>{user.email}</strong>
           </div>
           <div>
-            Phone: <strong></strong>
+            Phone: <strong>{user.phone}</strong>
           </div>
           <div>
-            Gender: <strong></strong>
+            Gender: <strong>{user.gender.toLocaleLowerCase()}</strong>
           </div>
         </Col>
         <Col span={6}>
           <h2>Bank Details</h2>
-          <div>
-            Bank Name: <strong></strong>
-          </div>
-          <div>
-            A/c: <strong></strong>
-          </div>
-          <div>
-            IFSC_CODE: <strong></strong>
-          </div>
+          {bankDetails ? (
+            <div>
+              <div>
+                Bank Name: <strong>{bankDetails.bankName}</strong>
+              </div>
+              <div>
+                A/c: <strong>{bankDetails.accountNumber}</strong>
+              </div>
+              <div>
+                IFSC_CODE: <strong>{bankDetails.IFSC_CODE}</strong>
+              </div>
+            </div>
+          ) : (
+            <p>Bank Details Not Available!!</p>
+          )}
         </Col>
         <Col span={6}>
           <h2>Location Info</h2>
           <div>
-            city: <strong></strong>
+            city: <strong>{defaultLocation.city}</strong>
           </div>
           <div>
-            Address: <strong></strong>
+            Address:{' '}
+            <strong>
+              {defaultLocation.address1}, {defaultLocation.address2}
+            </strong>
           </div>
           <div>
-            ZipCode: <strong></strong>
+            ZipCode: <strong>{defaultLocation.zipCode}</strong>
           </div>
         </Col>
         <Col span={6}>
-          <p>image info</p>
+          <Avatar
+            size={160}
+            alt="franchise_image"
+            src={IMAGE_HOST + user.image}
+          />
         </Col>
       </Row>
       <br />
       <br />
       <div>
-        <h2>displaying franchise reffered products here!! </h2>
+        <h2>
+          <span style={{ color: 'purple' }}>{user.name}</span> Reffered Products
+        </h2>
+        <br />
+        <Table
+          dataSource={franchiseOrderData.data.orders}
+          columns={FranchiseTableConfig}
+        />
       </div>
     </div>
   );

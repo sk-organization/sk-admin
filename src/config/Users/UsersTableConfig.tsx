@@ -52,23 +52,26 @@ export const usersTableConfig = [
     render: location => (
       <div>
         {location.address1 ||
-          (location.address2 && (
+        location.address2 ||
+        location.city ||
+        location.zipCode ? (
+          <React.Fragment>
             <div>
               <strong>Address: </strong>
-              {`${location.address1 || ''},
-          ${location.address2 || ''}`}
+              {location.address1}, {location.address2}
             </div>
-          ))}
-        {location.city && (
+            <div>
+              <strong>City: </strong>
+              {location.city}
+            </div>
+            <div>
+              <strong>ZipCode: </strong>
+              {location.zipCode}
+            </div>
+          </React.Fragment>
+        ) : (
           <div>
-            <strong>City: </strong>
-            {location.city}
-          </div>
-        )}
-        {location.zipCode && (
-          <div>
-            <strong>ZipCode: </strong>
-            {location.zipCode}
+            <p>Not Available!</p>
           </div>
         )}
       </div>

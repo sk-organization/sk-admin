@@ -92,7 +92,7 @@ const App = () => {
           </Menu.Item>
           <Menu.Item onClick={() => navigate('/admin-franchises')}>
             <Icon type="apartment" />
-            <span>Admin Franchise Areas</span>
+            <span>Franchise Areas</span>
           </Menu.Item>
           <Menu.Item onClick={() => navigate('/customers')}>
             <Icon type="user" />
@@ -176,11 +176,11 @@ const App = () => {
             }
           >
             <Menu.Item onClick={() => navigate('/admin/admins')}>
-              <Icon type="right-circle" />
+              <Icon type="frown" />
               <span>Admins</span>
             </Menu.Item>
             <Menu.Item onClick={() => navigate('/admin/manage-roles')}>
-              <Icon type="right-circle" />
+              <Icon type="frown" />
               <span>Manage Roles</span>
             </Menu.Item>
           </SubMenu>
@@ -238,8 +238,8 @@ const App = () => {
               marginBottom: 50,
             }}
           >
-            <div>**SK Shopping Admin**</div>
-            <p>version2.0</p>
+            <div>* SK Shopping Admin *</div>
+            <p>Version1.0</p>
           </h3>
         </footer>
       </Layout>

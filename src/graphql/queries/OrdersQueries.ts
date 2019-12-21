@@ -74,6 +74,16 @@ export const OrderQuery = gql`
           sellerPrice
           price
           discountPercent
+          totalProducts
+          selectedVariations {
+            id
+            images
+            sizes {
+              id
+              name
+              quantity
+            }
+          }
           subCategory {
             name
             franchiseCommissionPercent

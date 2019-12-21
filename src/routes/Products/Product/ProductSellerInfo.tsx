@@ -24,9 +24,9 @@ const ProductSellerInfo = ({ seller }) => {
           </div>
         )}
         <br />
-        <h4>Bank Details</h4>
         {bankName && (
           <div>
+            <h4>Bank Details</h4>
             Bank Name: <strong>{bankName}</strong>
           </div>
         )}
